@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:payluminix/essentials/fonts.dart';
 import 'package:payluminix/essentials/primaryButton.dart';
+import 'package:payluminix/screens/ConditionalPrimaryButton.dart';
 import 'package:payluminix/screens/handleMoney.dart';
 import 'package:payluminix/screens/showPermissionModal.dart';
 
-class MobileNumberScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _MobileNumberScreenState createState() => _MobileNumberScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _MobileNumberScreenState extends State<MobileNumberScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _isChecked = false;
-  final TextEditingController _controller = TextEditingController();
+  bool validMobile = false;
+
+  TextEditingController mobileController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    mobileController.addListener(_validateMobileInput);
+  }
+
+  void _validateMobileInput() {
+    setState(() {
+      validMobile = RegExp(r'^[6-9]\d{9}$').hasMatch(mobileController.text);
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -32,7 +46,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                     height: 300,
                     color: Colors.white,
                   ),
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
                   Row(
                     children: [
                       Container(
@@ -57,7 +71,8 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                 children: [
                   const SizedBox(height: 50),
                   TextField(
-                    controller: _controller,
+                    controller: mobileController,
+                    maxLength: 10,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'MOBILE NUMBER',
@@ -67,7 +82,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                         borderSide: BorderSide(width: 1),
                       ),
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Lobster',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -124,11 +139,32 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
                   const SizedBox(height: 220),
                   // Next Button
                   Center(
-                    child: Primarybutton(
+                    child: ConditionalPrimaryButton(
                       onButtonPressed: () {
-                        showPermissionModal(context);
+                        if (mobileController.text == "") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('Please Enter Mobile Number'),
+                          ));
+                        } else if (_isChecked == false) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please check the box to proceed'),
+                            ),
+                          );
+                        } else if (validMobile == false) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please enter valid mobile number'),
+                            ),
+                          );
+                        } else {
+                          showPermissionModal(context);
+                        }
                       },
                       buttonText: 'Next',
+                      isChecked: _isChecked,
+                      validMobile: validMobile,
                     ),
                   )
                 ],

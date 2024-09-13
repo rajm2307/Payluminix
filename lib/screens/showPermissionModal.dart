@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:payluminix/essentials/fonts.dart';
-import 'package:payluminix/essentials/primaryButton.dart'; // You can customize this for your fonts.
+import 'package:payluminix/essentials/primaryButton.dart';
+import 'package:permission_handler/permission_handler.dart'; // You can customize this for your fonts.
 
 void showPermissionModal(BuildContext context) {
   showModalBottomSheet(
@@ -103,7 +104,7 @@ void showPermissionModal(BuildContext context) {
             Center(
               child: Primarybutton(
                 onButtonPressed: () {
-                  showPermissionModal(context);
+                  _requestPermissions();
                 },
                 buttonText: 'Allow',
               ),
@@ -114,4 +115,30 @@ void showPermissionModal(BuildContext context) {
       );
     },
   );
+}
+
+Future<void> _requestPermissions() async {
+    // Request permission for SMS
+  var smsPermission = await Permission.sms.request();
+  if (smsPermission.isGranted) {
+    print('SMS permission granted');
+  } else {
+    print('SMS permission denied');
+  }
+
+  // Request permission for Phone (Call)
+  var phonePermission = await Permission.phone.request();
+  if (phonePermission.isGranted) {
+    print('Phone permission granted');
+  } else {
+    print('Phone permission denied');
+  }
+
+  // Request permission for Location
+  var locationPermission = await Permission.location.request();
+  if (locationPermission.isGranted) {
+    print('Location permission granted');
+  } else {
+    print('Location permission denied');
+  }
 }

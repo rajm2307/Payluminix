@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:payluminix/essentials/fonts.dart';
 import 'package:payluminix/essentials/primaryButton.dart';
 import 'package:payluminix/essentials/text_and_images.dart';
-import 'package:payluminix/screens/handleMoney.dart';
 import 'package:payluminix/screens/manageMoney.dart';
+import 'package:payluminix/screens/tell_us_your_mobile_no.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EarnCashBack extends StatefulWidget {
   const EarnCashBack({super.key});
@@ -13,6 +14,15 @@ class EarnCashBack extends StatefulWidget {
 }
 
 class _EarnCashBackState extends State<EarnCashBack> {
+
+    // Function to navigate to login page and save onboarding status
+  void _completeOnboarding() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFirstTimeUser', false);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +35,7 @@ class _EarnCashBackState extends State<EarnCashBack> {
               Container(
                 margin: const EdgeInsets.only(right: 10.0),
                 child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Handlemoney(),
-                      ),
-                    );
-                  },
+                  onPressed: _completeOnboarding,
                   child: Text(
                     'Skip',
                     style: textStyles,

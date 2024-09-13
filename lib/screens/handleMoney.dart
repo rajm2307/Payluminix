@@ -3,6 +3,7 @@ import 'package:payluminix/essentials/fonts.dart';
 import 'package:payluminix/essentials/primaryButton.dart';
 import 'package:payluminix/essentials/text_and_images.dart';
 import 'package:payluminix/screens/tell_us_your_mobile_no.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Handlemoney extends StatefulWidget {
   const Handlemoney({super.key});
@@ -12,6 +13,15 @@ class Handlemoney extends StatefulWidget {
 }
 
 class _HandlemoneyState extends State<Handlemoney> {
+  // Function to navigate to login page and save onboarding status
+  void _completeOnboarding() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFirstTimeUser', false);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +53,7 @@ class _HandlemoneyState extends State<Handlemoney> {
               height: 35,
             ),
             Primarybutton(
-              onButtonPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MobileNumberScreen(),
-                  ),
-                );
-              },
+              onButtonPressed: _completeOnboarding,
               buttonText: 'Get Started',
             )
           ],
