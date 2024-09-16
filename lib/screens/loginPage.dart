@@ -163,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       buttonText: 'Next',
-                      isChecked: _isChecked,
                       validMobile: validMobile,
+                      isChecked: _isChecked,
                     ),
                   )
                 ],

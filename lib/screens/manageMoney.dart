@@ -3,7 +3,7 @@ import 'package:payluminix/essentials/fonts.dart';
 import 'package:payluminix/essentials/primaryButton.dart';
 import 'package:payluminix/essentials/text_and_images.dart';
 import 'package:payluminix/screens/handleMoney.dart';
-import 'package:payluminix/screens/tell_us_your_mobile_no.dart';
+import 'package:payluminix/screens/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

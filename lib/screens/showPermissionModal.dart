@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:payluminix/essentials/fonts.dart';
 import 'package:payluminix/essentials/primaryButton.dart';
+import 'package:payluminix/screens/otpPage.dart';
 import 'package:permission_handler/permission_handler.dart'; // You can customize this for your fonts.
 
 void showPermissionModal(BuildContext context) {
@@ -104,7 +105,7 @@ void showPermissionModal(BuildContext context) {
             Center(
               child: Primarybutton(
                 onButtonPressed: () {
-                  _requestPermissions();
+                  _requestPermissions(context);
                 },
                 buttonText: 'Allow',
               ),
@@ -117,8 +118,8 @@ void showPermissionModal(BuildContext context) {
   );
 }
 
-Future<void> _requestPermissions() async {
-    // Request permission for SMS
+Future<void> _requestPermissions(BuildContext context) async {
+  // Request permission for SMS
   var smsPermission = await Permission.sms.request();
   if (smsPermission.isGranted) {
     print('SMS permission granted');
@@ -140,5 +141,14 @@ Future<void> _requestPermissions() async {
     print('Location permission granted');
   } else {
     print('Location permission denied');
+  }
+
+  if (true) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Otppage(),
+      ),
+    );
   }
 }

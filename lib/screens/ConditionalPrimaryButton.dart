@@ -4,8 +4,8 @@ import 'package:payluminix/essentials/primaryButton.dart';
 class ConditionalPrimaryButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onButtonPressed;
-  final bool isChecked;
   final bool validMobile;
+  final bool isChecked;
 
   const ConditionalPrimaryButton({
     super.key,
@@ -37,3 +37,5 @@ class ConditionalPrimaryButton extends StatelessWidget {
     );
   }
 }
+
+
